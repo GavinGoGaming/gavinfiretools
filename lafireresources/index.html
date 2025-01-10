@@ -14,11 +14,12 @@
 html, body {
     background: #111;
     color: white;
-    font-family: Inter;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     padding: 0;
     margin: 0;
     width: 100vw;
     height: 100vh;
+    overflow-x: hidden;
     vertical-align: baseline;
 }
 #offline {
@@ -48,8 +49,16 @@ html, body {
 #lower-title {
     font-size: 14px;
 }
+.map-content {
+    width: calc(100%);
+    padding: 0 8px;
+    box-sizing: border-box;
+    border: 2px solid #ffffff1a;
+    position: relative;
+    height: 360px;
+}
 .content {
-    height: calc(100% - 60px);
+    height: calc(100% - 20px);
     width: calc(100%);
     background: #111;
     display: flex;
@@ -112,7 +121,7 @@ a:active {
     background: #2600ff;
 }
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 #watchduty-container {
@@ -123,11 +132,11 @@ a:active {
 }
 #watchduty {
     transform: scale(0.75);
-    width: calc(100% + 50px);
+    width: calc(125vw);
     height: 120%;
     position: absolute;
-    top: -46px;
-    left: -25px;
+    top: -40px;
+    left: -13.5vw;
     border-radius: 6px;
     border: 3px solid #546677;
 }
@@ -135,8 +144,11 @@ a:active {
 </head>
 <body>
 <div class="topnav">
-    <span id="title"><span id="top-title">GFT</span><span id="lower-title">GavinFireTools | Upd. 0</span></span>
+    <span id="title"><span id="top-title">GFT</span><span id="lower-title">GavinFireTools | Upd. 1</span></span>
     <button class="download-btn hidden"><i class="fa-solid fa-download"></i> Save Page</button>
+</div>
+<div class="map-content">
+    <iframe src="https://app.watchduty.org/i/40388" id="watchduty"></iframe>
 </div>
 <div class="content">
     <div class="item">
@@ -151,6 +163,9 @@ a:active {
         <a href="https://www.fire.ca.gov/incidents.html" target="_blank"><i class="fa-solid fa-satellite"></i> NASA FIRMS Satellite</a>
         <a href="https://protect.genasys.com/" target="_blank"><i class="fa-solid fa-map-location-dot"></i> Genasys
             Protect Zones</a>
+        <a target="_blank" href="https://www.google.com/maps/@34.1809825,-118.1284739,12.79z/data=!4m3!11m2!2sbR_hs2TRSVCzpTlGEqL1ng!3e3?entry=ttu&g_ep=EgoyMDI1MDEwNy4wIKXMDSoASAFQAw%3D%3D">
+            <i class="fa-solid fa-google fa-brands"></i>Google Map Area
+        </a>
         <a href="https://quickmap.dot.ca.gov/" target="_blank"><i class="fa-solid fa-road"></i> CalTrans Quick Map</a>
         <a href="https://pw.lacounty.gov/roadclosures/"
             target="_blank"><i class="fa-solid fa-road-circle-exclamation"></i> LA Road Closures</a>
@@ -160,9 +175,6 @@ a:active {
             LAX Air Traffic</a>
         <a href="https://www.hpwren.ucsd.edu/cameras/video_mta.html?camera=wilson-e-axis"
             target="_blank"><i class="fa-solid fa-video"></i> UCSD Cameras</a>
-        <div id="watchduty-container">
-            <iframe src="https://app.watchduty.org/i/40388" id="watchduty"></iframe>
-        </div>
     </div>
     <div class="item">
         <b>Links: Wildfire Information</b>
@@ -231,14 +243,16 @@ https://firms.modaps.eosdis.nasa.gov/map/#d:24hrs;@-118.20,34.07,10.26z
 function downloadCurrentPage() {
     const link = document.createElement('a');
     link.href = location.href;
-    link.download = 'GavinLAFireTools.html';
+    link.download = 'U1GavinLAFireTools.html';
     link.click();
 }
-document.querySelector('.download-btn').addEventListener('click', downloadCurrentPage);
-if(window.location.href && !window.location.href.includes("file")) {
-    document.querySelector('.download-btn').classList.remove('hidden');
-    document.querySelector('#offline').classList.add('hidden');
-}
+document.addEventListener("DOMContentLoaded", ()=> {
+    document.querySelector('.download-btn').addEventListener('click', downloadCurrentPage);
+    if (window.location.href && !window.location.href.includes("file")) {
+        document.querySelector('.download-btn').classList.remove('hidden');
+        document.querySelector('#offline').classList.add('hidden');
+    }
+})
 </script>
     
 </body>
