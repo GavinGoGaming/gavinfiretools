@@ -53,7 +53,7 @@ html, body {
     width: calc(100%);
     padding: 0 8px;
     box-sizing: border-box;
-    border: 2px solid #ffffff1a;
+    border-top: 4px solid #ffffff1a;
     position: relative;
     height: 360px;
 }
@@ -70,8 +70,9 @@ html, body {
     overflow-x: auto;
 }
 .item {
-    height: 90%;
+    height: 95%;
     width: 260px;
+    padding-bottom: 8px;
     border: 2px solid #ffffff1a;
     border-radius: 5px;
     display: flex;
@@ -80,6 +81,16 @@ html, body {
     align-items: center;
     overflow-y: auto;
     gap: 2px;
+}
+.item > img {
+    width: calc(90% - 7px);
+    border: 2px solid #ffb0b090;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+.item > img:hover {
+    border-color: #ccc;
 }
 * {
     scrollbar-width: thin;
@@ -140,20 +151,150 @@ a:active {
     border-radius: 6px;
     border: 3px solid #546677;
 }
+#devpane {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 300px;
+    height: 200px;
+    backdrop-filter: blur(10px);
+    background: #0004;
+    border: 3px solid #ffffff2a;
+    border-radius: 8px;
+}
+#devbox {
+    width: 98%;
+    height: 80%;
+    background: rgba(20,20,20,0.3);
+    color: white;
+    border: 0;
+    resize: none;
+    outline: none;
+}
+.modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    backdrop-filter: blur(25px) grayscale(0.4);
+    background: rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.inner-modal {
+    width: calc(100% - 20px);
+    height: calc(100% - 20px);
+    background: #222222aa;
+    border: 3px solid #ffffff2a;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    flex-direction: column;
+}
+.modal-title {
+    width: 100%;
+    height: 40px;
+    background: #0004;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8px;
+    box-sizing: border-box;
+}
+.modal-content {
+    height: calc(100% - 40px);
+    width: calc(100% - 40px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content img {
+    height: 98%;
+}
+.modal:not(.hidden) {
+    animation: reveal 0.15s ease;
+}
+.modal.closing {
+    animation: hide 0.15s ease;
+}
+@keyframes reveal {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+@keyframes hide {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+#close-modal {
+    background: #0008;
+    width: 30px;
+    height: 30px;
+    border: 2px solid rgb(255, 108, 108);
+    border-radius: 50%;
+    background: rgb(60, 41, 41);
+    color: lightcoral;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: font-size 0.2s ease;
+    cursor: pointer;
+}
+#close-modal:hover {
+    font-size: 20px;
+}
+#download-image {
+    background: #0008;
+    width: 30px;
+    height: 30px;
+    border: 2px solid rgb(150, 108, 255);
+    border-radius: 50%;
+    background: rgb(45, 41, 60);
+    color: rgb(150, 128, 240);
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: font-size 0.2s ease;
+    cursor: pointer;
+}
+#download-image:hover {
+    font-size: 18px;
+}
+#tiny {
+    font-size: 10px;
+}
+
+#tiny, #lower-title {
+    top: -2px;
+}
 </style>
 </head>
 <body>
 <div class="topnav">
-    <span id="title"><span id="top-title">GFT</span><span id="lower-title">GavinFireTools | Upd. 1</span></span>
+    <span id="title"><span id="top-title">GFT 1.2</span><span id="lower-title">GavinFireTools</span> <span id="tiny">gavingogaming.com</span></span>
     <button class="download-btn hidden"><i class="fa-solid fa-download"></i> Save Page</button>
 </div>
-<div class="map-content">
+<div class="map-content hidden">
     <iframe src="https://app.watchduty.org/i/40388" id="watchduty"></iframe>
 </div>
 <div class="content">
     <div class="item">
-        <b>Links: Maps & Radars</b>
-        <i>feel free to comment more links</i>
+        <b>Maps & Radars</b>
         <a href="https://calema.maps.arcgis.com/apps/dashboards/4f45b9c8360442c38a6c84222930c0e6" target="_blank">
         <i class="fa-solid fa-computer"></i> WFTIIC Full Dashboard</a>
         <a href="https://app.watchduty.org/" target="_blank"><i class="fa-solid fa-map"></i> Watch Duty Fire/Zone
@@ -175,9 +316,13 @@ a:active {
             LAX Air Traffic</a>
         <a href="https://www.hpwren.ucsd.edu/cameras/video_mta.html?camera=wilson-e-axis"
             target="_blank"><i class="fa-solid fa-video"></i> UCSD Cameras</a>
+        <a href="https://www.google.com/maps/@34.1811652,-118.1439419,14.31z/data=!4m3!11m2!2sbR_hs2TRSVCzpTlGEqL1ng!3e3?entry=ttu&g_ep=EgoyMDI1MDEwOC4wIKXMDSoASAFQAw%3D%3D"
+            target="_blank"><i class="fa-solid fa-flag"></i> Fire/Issue Reports</a>
+        <a href="https://calfire-forestry.maps.arcgis.com/home/webscene/viewer.html?webscene=0a7381c8b46b4e26a057383424f32c06"
+            target="_blank"><i class="fa-solid fa-map"></i> 3D Building Map</a>
     </div>
     <div class="item">
-        <b>Links: Wildfire Information</b>
+        <b>Wildfire Information</b>
         <a href="https://www.fire.ca.gov/incidents/2025/1/7/eaton-fire" target="_blank"><i class="fa-solid fa-fire"></i>
             CAL FIRE Eaton Fire</a>
         <a href="https://www.fire.ca.gov/incidents/2025/1/7/palisades-fire"
@@ -192,9 +337,15 @@ a:active {
             target="_blank"><i class="fa-solid fa-tree"></i> InciWeb Eaton Fire</a>
         <a href="https://inciweb.fs2c.usda.gov/incident-information/caanf-eaton-fire"
             target="_blank"><i class="fa-solid fa-tree"></i> InciWeb Eaton Fire (USDA)</a>
+        <a href="https://www.youtube.com/watch?v=sk5buamVQ1o" target="_blank"><i class="fa-solid fa-brands fa-youtube"></i>
+            Eaton Press Briefing</a>
+        <a href="https://lafd.org/quick-evacuation-tips" target="_blank"><i class="fa-solid fa-person-running"></i> Evacuation
+            Quick Tips</a>
+        <a href="https://oag.ca.gov/report" target="_blank"><i class="fa-solid fa-flag"></i> Report Price Gouging</a>
+        <a href="https://docs.google.com/spreadsheets/u/0/d/1KMk34XY5dsvVJjAoD2mQUVHYU_Ib6COz6jcGH5uJWDY/htmlview?usp=sharing" target="_blank">MALAN Fire Resources</a>
     </div>
     <div class="item">
-        <b>Links: City Resources & Alerts</b>
+        <b>City Resources & Alerts</b>
         <a href="https://alertla.org/" target="_blank"><i class="fa-solid fa-bell"></i> AlertLA.org</a>
         <a href="https://www.sce.com/outage-center/check-outage-status" target="_blank"><i class="fa-solid fa-bolt"></i>
             Edison Outage Check</a>
@@ -206,13 +357,20 @@ a:active {
         <a href="https://www.disasterassistance.gov/" target="_blank"><i class="fa-solid fa-circle-info"></i> Disaster
             Assistance (.gov)</a>
         <a href="https://www.fema.gov/" target="_blank"><i class="fa-solid fa-shield"></i> FEMA.gov</a>
-        <a href="https://altadenatowncouncil.org/2025/01/eaton-fire-information/"
-            target="_blank"><i class="fa-solid fa-building"></i> Altadena Eaton Fire</a>
+        <a href="https://altadenatowncouncil.org/wp-content/uploads/2025/01/ATC-Eaton-Fire-Statement.pdf"
+            target="_blank"><i class="fa-solid fa-building"></i> Altadena Report</a>
         <a href="https://laist.com/brief/news/education/los-angeles-unified-school-district-closures-meals-eaton-palisades-fire"
             target="_blank"><i class="fa-solid fa-utensils"></i> LAUSD Student Meals</a>
+        <a href="https://www.cityofpasadena.net/city-manager/wp-content/uploads/sites/2/Eaton-Fire-Water-System-Potentially-Impacted-Areas.pdf?v=1736496213171"
+            target="_blank"><i class="fa-solid fa-droplet"></i> Impacted Water Zone</a>
+        <a href="https://www.nbclosangeles.com/news/california-wildfires/curfew-la-county-wildfires/3600157/"
+            target="_blank"><i class="fa-solid fa-clock"></i> NBCLA Curfew Info</a>
+        <a href="https://recovery.lacounty.gov/" target="_blank"><i class="fa-solid fa-heart"></i> LA County Recovers</a>
+        <a href="https://docs.google.com/spreadsheets/u/1/d/1eaSXTYlLY_spJ-_w43ac55qu6X4YtgApgRGfads3cM4/htmlview" target="_blank"><i class="fa-solid fa-person"></i>Volunteer Opportunities</a>
+        <a href="https://www.fireaid.info/" target="_blank"> <i class="fa-solid fa-home"></i>Fireaid Locations</a>
     </div>
     <div class="item">
-        <b>Links: Social & News</b>
+        <b>Social & News</b>
         <a href="https://ktla.com/on-air/live-streaming/" target="_blank"><i class="fa-solid fa-tv"></i> KTLA Live</a>
         <a href="https://abc7.com/" target="_blank"><i class="fa-solid fa-newspaper"></i> ABC7 Los Angeles</a>
         <a href="https://www.nbcnews.com/watch#los-angeles" target="_blank"><i class="fa-solid fa-newspaper"></i> NBC
@@ -223,35 +381,108 @@ a:active {
             Live</a>
         <a href="https://www.cnn.com/videos/live" target="_blank"><i class="fa-solid fa-newspaper"></i> CNN Live</a>
         <a href="https://www.foxla.com/live" target="_blank"><i class="fa-solid fa-newspaper"></i> FOX 11 LA Live</a>
-        <a href="https://bsky.app/search?q=pasadena+fire" target="_blank"><i class="fa-brands fa-bluesky"></i> Bluesky
-            'Pasadena Fire'</a>
-        <a href="https://x.com/search?q=pasadena%20fire" target="_blank"><i class="fa-brands fa-twitter"></i> Twitter/X
-            'Pasadena Fire'</a>
-        <a href="https://x.com/BeatlesEarth/status/1877413473203741052"
-            target="_blank"><i class="fa-brands fa-x-twitter"></i> Shelter Resource Images</a>
+        <a href="https://bsky.app/profile/dieworkwear.bsky.social/post/3lfbq25o2wc2m"
+            target="_blank"><i class="fa-brands fa-x-twitter"></i> Resource Images</a>
         <a href="https://x.com/i/events/1876851578461696000" target="_blank"><i class="fa-brands fa-x-twitter"></i> "LA
             Fires" Event</a>
         <a href="https://www.redcross.org/get-help/disaster-relief-and-recovery-services/contact-and-locate-loved-ones/california-wildfires-reunification.html"
             target="_blank"><i class="fa-solid fa-hand-holding-heart"></i> Red Cross Reunification</a>
+        <a href="https://www.foxbusiness.com/lifestyle/california-insurance-crisis-here-carriers-have-fled-reduced-coverage-state"
+            target="_blank"><i class="fa-solid fa-newspaper"></i> Dropped Insurance Carriers</a>
+    </div>
+    <div class="item child-images-modal">
+        <b>Images</b>
+        <i>May not load without internet.</i>
+        <img src="https://altadenatowncouncil.org/wp-content/uploads/2025/01/FEMA-Assistance-1-1024x1024.jpg" alt="">
+        <img src="https://cdn.discordapp.com/attachments/627532923842723850/1327795023932035143/image0.jpg?ex=67845cfa&is=67830b7a&hm=3dc70160fab75405e415d2cecff22cf27dd2311f00f8a77a451776f15e5a16f1&" alt="">
+        <img src="https://cdn.discordapp.com/attachments/627532923842723850/1327794946610303007/image0.jpg?ex=67845ce8&is=67830b68&hm=1703aa332866bb7b3a963cda73392c5e84f0ddc0586d8dfe5e5dfe79e1ae80b0&" alt="">
+        <img src="https://cdn.discordapp.com/attachments/627532923842723850/1327794892042276945/image0.jpg?ex=67845cdb&is=67830b5b&hm=5abe1919ef3c509dea058239437049cf8a002c73664c60b566257da3893e002a&" alt="">
+        <img src="https://cdn.discordapp.com/attachments/627532923842723850/1327794826753736776/image0.jpg?ex=67845ccb&is=67830b4b&hm=90a9055668743fceb6c09880d1a3b3a7de9701e6cbd8b423570b1163f71eb1d9&" alt="">
+        <img src="https://cdn.discordapp.com/attachments/627532923842723850/1327794536583532616/image0.jpg?ex=67845c86&is=67830b06&hm=7755bbbd1c45bf5a7b461a7d5eb87c60967f26f2a182a540bc5190d86f1ce481&" alt="">
+        <img src="https://cdn.bsky.app/img/feed_fullsize/plain/did:plc:ks3gpa6ftoyaq7hmf6c4qx4c/bafkreid5vrzdpybpuywci4lhxlalznv2roqk5kckmohmmfznpkelyqarla@jpeg" alt="">
+        <img src="https://cdn.bsky.app/img/feed_fullsize/plain/did:plc:ks3gpa6ftoyaq7hmf6c4qx4c/bafkreifhgd4wgbzvwpx4nrcxo2aprr7m2vw6bvmoalamqwhx27k7w6ag4i@jpeg" alt="">
+        <img src="https://cdn.bsky.app/img/feed_fullsize/plain/did:plc:ks3gpa6ftoyaq7hmf6c4qx4c/bafkreig4hicqpkmd7j4nugaix3ixgzteliqhp37slai45elwxa7lm55fjy@jpeg" alt="">
+        <img src="https://cdn.bsky.app/img/feed_fullsize/plain/did:plc:ks3gpa6ftoyaq7hmf6c4qx4c/bafkreigcnypcknxiipsq7hohfypdhq2jowjh4j54am43zpxdgb56leenvq@jpeg" alt="">
+        <img src="https://cdn.bsky.app/img/feed_fullsize/plain/did:plc:ks3gpa6ftoyaq7hmf6c4qx4c/bafkreicievviu2imgnwtid3blgnhr7crrbjt7zoujxrlftuqabzqe3e3em@jpeg" alt="">
+        <img src="https://cdn.bsky.app/img/feed_fullsize/plain/did:plc:ks3gpa6ftoyaq7hmf6c4qx4c/bafkreicf4hzlqnle7eq2oi4u6evdtfsgcbpxr42kpaxewrmhmeu46pkaoq@jpeg" alt="">
+        <img src="https://cdn.bsky.app/img/feed_fullsize/plain/did:plc:ks3gpa6ftoyaq7hmf6c4qx4c/bafkreifmx6t5elvy5yrb5rn7ktpitq5ykwdmcqcencnpqlftz52e4ho23a@jpeg" alt="">
+    </div>
+</div>
+
+<div class="modal hidden">
+    <div class="inner-modal">
+        <div class="modal-title"><div><button id="download-image"><i class="fa-solid fa-download"></i></button></div> <button id="close-modal"><i class="fa-solid fa-circle-x"></i></button></div>
+        <div class="modal-content">
+            <img src="" id="modal-image">
+        </div>
     </div>
 </div>
 <script type="text/javascript">
     /*
-collection repository for once i put in the links
-https://firms.modaps.eosdis.nasa.gov/map/#d:24hrs;@-118.20,34.07,10.26z
-*/
+let devbox = document.querySelector('#devbox');
+let devpane = [
+    ["Fire/Issue Reports", "flag", "https://www.google.com/maps/@34.1811652,-118.1439419,14.31z/data=!4m3!11m2!2sbR_hs2TRSVCzpTlGEqL1ng!3e3?entry=ttu&g_ep=EgoyMDI1MDEwOC4wIKXMDSoASAFQAw%3D%3D"],
+    ["3D Building Map", "map", "https://calfire-forestry.maps.arcgis.com/home/webscene/viewer.html?webscene=0a7381c8b46b4e26a057383424f32c06"],
+    "ZFIRE INFO",
+    ["Eaton Press Briefing", "brands fa-youtube", "https://www.youtube.com/watch?v=sk5buamVQ1o"],
+    ["Evacuation Quick Tips", "person-running", "https://lafd.org/quick-evacuation-tips"],
+    "ZCITY",
+    ["Impacted Water Zone", "droplet", "https://www.cityofpasadena.net/city-manager/wp-content/uploads/sites/2/Eaton-Fire-Water-System-Potentially-Impacted-Areas.pdf?v=1736496213171"],
+    ["NBCLA Curfew Info", "clock", "https://www.nbclosangeles.com/news/california-wildfires/curfew-la-county-wildfires/3600157/"],
+    ["LA County Recovers", "heart", "https://recovery.lacounty.gov/"],
+    "ZSOCIAL",
+    ["Dropped Insurance Carriers", "newspaper", "https://www.foxbusiness.com/lifestyle/california-insurance-crisis-here-carriers-have-fled-reduced-coverage-state"]
+]
+function generateLinks() {
+    var x = "";
+    devpane.forEach(link => {
+        if(link[0]=="Z") { x+= "<!-- BEGIN "+link+" -->\n" } else {
+            x += `<a href="${link[2]}" target="_blank"><i class="fa-solid fa-${link[1]}"></i> ${link[0]}</a>\n`;
+        }
+    });
+    return x;
+}*/
 function downloadCurrentPage() {
     const link = document.createElement('a');
     link.href = location.href;
-    link.download = 'U1GavinLAFireTools.html';
+    link.download = 'U2GavinLAFireTools.html';
     link.click();
 }
 document.addEventListener("DOMContentLoaded", ()=> {
     document.querySelector('.download-btn').addEventListener('click', downloadCurrentPage);
     if (window.location.href && !window.location.href.includes("file")) {
         document.querySelector('.download-btn').classList.remove('hidden');
-        document.querySelector('#offline').classList.add('hidden');
+        document.querySelector('.map-content').classList.remove('hidden');
+        //devbox.value = generateLinks();
     }
+})
+function createModalDisplay(source) {
+    return (event=null)=>{
+        document.querySelector('#modal-image').src = source;
+        document.querySelector('.modal').classList.remove('hidden');
+    };
+}
+document.querySelector('#close-modal').addEventListener('click', ()=>{
+    document.querySelector('.modal').classList.add('closing');
+    setTimeout(() => { document.querySelector('.modal').classList.add('hidden'); document.querySelector('.modal').classList.remove('closing'); }, 0.14*1000);
+});
+document.querySelector('#download-image').addEventListener('click', () => {
+    const modalImage = document.querySelector('#modal-image');
+    if (modalImage) {
+        const src = modalImage.src;
+        const extensionMatch = src.match(/\.(jpeg|jpg|png|gif|bmp|webp|pdf)(\?|$)/i);
+        const extension = extensionMatch ? extensionMatch[1] : 'png';
+        const a = document.createElement('a');
+        a.href = src;
+        a.target = "_blank";
+        a.download = `download.${extension}`;
+        a.click();
+    } else {
+        console.error('image not found!');
+    }
+});
+document.querySelectorAll('.child-images-modal > img').forEach(image => {
+    image.addEventListener('click', createModalDisplay(image.src));
 })
 </script>
     
