@@ -1,0 +1,479 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quadpad Export</title>
+
+<style>
+    /* Import Inter font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Base styles */
+:root {
+    --background: #121212;
+    --surface: #1e1e1e;
+    --primary: #bb86fc;
+    --secondary: #03dac6;
+    --error: #cf6679;
+    --text-primary: rgba(255, 255, 255, 0.87);
+    --text-secondary: rgba(255, 255, 255, 0.6);
+    --border: rgba(255, 255, 255, 0.12);
+}
+
+/* Global styles */
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: var(--background);
+    color: var(--text-primary);
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+p {
+    color: var(--text-secondary);
+}
+
+/* Links */
+a {
+    color: var(--primary);
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+}
+
+a:hover {
+    opacity: 0.8;
+}
+
+/* Buttons */
+button,
+.button {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--primary);
+    color: var(--background);
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+button:hover,
+.button:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+button:disabled,
+.button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Inputs */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+textarea {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--surface);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 14px;
+    transition: border-color 0.2s ease;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+/* Checkboxes */
+input[type="checkbox"] {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--border);
+    border-radius: 3px;
+    background-color: var(--surface);
+    cursor: pointer;
+    position: relative;
+    vertical-align: middle;
+}
+
+input[type="checkbox"]:checked {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+input[type="checkbox"]:checked::after {
+    content: "✓";
+    position: absolute;
+    color: var(--background);
+    font-size: 14px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Select */
+select {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--surface);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    width: 100%;
+}
+
+/* Radio buttons */
+input[type="radio"] {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    background-color: var(--surface);
+    cursor: pointer;
+    position: relative;
+    vertical-align: middle;
+}
+
+input[type="radio"]:checked {
+    border-color: var(--primary);
+}
+
+input[type="radio"]:checked::after {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: var(--primary);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Focus styles */
+:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+.header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    height: 40px;
+    background: #222;
+    border-bottom: 1px solid var(--border);
+}
+.content {
+    width: 100%;
+    max-width: 800px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 18px;
+    box-sizing: border-box;
+    gap: 2px;
+}
+.content > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-bottom: 1px solid var(--border);
+    padding: 4px 0;
+    box-sizing: border-box;
+}
+h3 {
+    margin: 0;
+}
+#opt {
+    display: flex;
+    flex-direction: row;
+}
+#authorsList {
+    gap: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.input-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    width: 100%;
+}
+</style>
+</head>
+<body>
+<div class="header"><b>HilgerCIT</b>
+<i>a citation tool created for MLA 8th edition format</i></div>
+
+<div class="content">
+<div id="opt">
+    <button onclick="setBook()">Book</button>
+    <button onclick="setArticle()">Article</button>
+    <button onclick="setWebsite()">Website</button>
+</div>
+
+<div id="authors">
+    <h3>Authors</h3>
+    <div id="authorsList"></div>
+    <button onclick="addAuthor()">Add Author</button>
+</div>
+
+<div id="title">
+    <h3>Title</h3>
+    <input type="text" id="titleInput" placeholder="Work title">
+</div>
+
+<div id="containerDiv" style="display: none;">
+    <h3>Container (Journal/Website)</h3>
+    <input type="text" id="containerInput" placeholder="Container title">
+</div>
+
+<div id="otherContributors" style="display: none;">
+    <h3>Other Contributors</h3>
+    <div id="contributorsList"></div>
+    <button onclick="addContributor()">Add Contributor</button>
+</div>
+
+<div id="version" style="display: none;">
+    <h3>Version</h3>
+    <input type="text" id="versionInput" placeholder="Version">
+</div>
+
+<div id="number" style="display: none;">
+    <h3>Number</h3>
+    <input type="text" id="numberInput" placeholder="Volume/issue number">
+</div>
+
+<div id="publisher">
+    <h3>Publisher</h3>
+    <input type="text" id="publisherInput" placeholder="Publisher">
+</div>
+
+<div id="publicationDate">
+    <h3>Publication Date</h3>
+    <input type="text" id="publicationDateInput" placeholder="Publication date">
+</div>
+
+<div id="location" style="display: none;">
+    <h3>Location</h3>
+    <input type="text" id="locationInput" placeholder="Page numbers or URL">
+</div>
+
+<div id="accessDate" style="display: none;">
+    <h3>Access Date</h3>
+    <input type="text" id="accessDateInput" placeholder="Access date">
+</div>
+
+<div id="generate">
+    <h3>Generate MLA 8 Cit.</h3>
+    <button>Generate</button>
+    <textarea name="Citation" id="result"></textarea>
+</div>
+</div>
+<script type="text/javascript">
+    function generateMLACitation({
+    authors = [],
+    title = '',
+    container = '',
+    otherContributors = [],
+    version = '',
+    number = '',
+    publisher = '',
+    publicationDate = '',
+    location = '',
+    accessDate = ''
+}) {
+    let citation = '';
+
+    // 1. Authors
+    if (authors.length > 0) {
+        if (authors.length === 1) {
+            citation += `${authors[0].lastName}, ${authors[0].firstName}. `;
+        } else if (authors.length === 2) {
+            citation += `${authors[0].lastName}, ${authors[0].firstName}, and ${authors[1].firstName} ${authors[1].lastName}. `;
+        } else {
+            citation += `${authors[0].lastName}, ${authors[0].firstName}, et al. `;
+        }
+    }
+
+    // 2. Title
+    if (title) {
+        citation += `"${title}"`;
+    }
+
+    // 3. Container (for articles and websites)
+    if (container) {
+        citation += `, ${container}`;
+    }
+
+    // 4. Other Contributors
+    if (otherContributors.length > 0) {
+        const contributorsText = otherContributors
+            .map(c => `${c.role} ${c.firstName} ${c.lastName}`)
+            .join(', ');
+        citation += `, ${contributorsText}`;
+    }
+
+    // 5. Version
+    if (version) {
+        citation += `, ${version}`;
+    }
+
+    // 6. Number (volume/issue)
+    if (number) {
+        citation += `, ${number}`;
+    }
+
+    // 7. Publisher
+    if (publisher) {
+        citation += `, ${publisher}`;
+    }
+
+    // 8. Publication Date
+    if (publicationDate) {
+        citation += `, ${publicationDate}`;
+    }
+
+    // 9. Location
+    if (location) {
+        citation += `, ${location}`;
+    }
+
+    // 10. Access Date (for websites)
+    if (accessDate) {
+        citation += `. Accessed ${accessDate}`;
+    }
+
+    // Ensure citation ends with a period
+    if (!citation.endsWith('.')) {
+        citation += '.';
+    }
+
+    return citation;
+}
+
+// Functions to show/hide appropriate fields
+function setBook() {
+    document.getElementById('containerDiv').style.display = 'none';
+    document.getElementById('accessDate').style.display = 'none';
+    document.getElementById('location').style.display = 'block';
+}
+
+function setArticle() {
+    document.getElementById('containerDiv').style.display = 'block';
+    document.getElementById('accessDate').style.display = 'none';
+    document.getElementById('location').style.display = 'block';
+}
+
+function setWebsite() {
+    document.getElementById('containerDiv').style.display = 'block';
+    document.getElementById('accessDate').style.display = 'block';
+    document.getElementById('location').style.display = 'block';
+}
+
+// Function to add author fields
+function addAuthor() {
+    const authorDiv = document.createElement('div');
+    authorDiv.className = 'author input-container';
+    authorDiv.innerHTML = `
+        <input type="text" class="firstName" placeholder="First name">
+        <input type="text" class="lastName" placeholder="Last name">
+        <button onclick="this.parentElement.remove()">X</button>
+    `;
+    document.getElementById('authorsList').appendChild(authorDiv);
+}
+
+// Function to add contributor fields
+function addContributor() {
+    const contributorDiv = document.createElement('div');
+    contributorDiv.className = 'contributor input-container';
+    contributorDiv.innerHTML = `
+        <input type="text" class="role" placeholder="Role (e.g., translated by)">
+        <input type="text" class="firstName" placeholder="First name">
+        <input type="text" class="lastName" placeholder="Last name">
+        <button onclick="this.parentElement.remove()">Remove</button>
+    `;
+    document.getElementById('contributorsList').appendChild(contributorDiv);
+}
+
+// Function to collect all form data
+function collectFormData() {
+    const authors = Array.from(document.querySelectorAll('#authorsList .author')).map(authorDiv => ({
+        firstName: authorDiv.querySelector('.firstName').value,
+        lastName: authorDiv.querySelector('.lastName').value
+    }));
+
+    const otherContributors = Array.from(document.querySelectorAll('#contributorsList .contributor')).map(contributorDiv => ({
+        role: contributorDiv.querySelector('.role').value,
+        firstName: contributorDiv.querySelector('.firstName').value,
+        lastName: contributorDiv.querySelector('.lastName').value
+    }));
+
+    return {
+        authors: authors,
+        title: document.getElementById('titleInput').value,
+        container: document.getElementById('containerInput').value,
+        otherContributors: otherContributors,
+        version: document.getElementById('versionInput').value,
+        number: document.getElementById('numberInput').value,
+        publisher: document.getElementById('publisherInput').value,
+        publicationDate: document.getElementById('publicationDateInput').value,
+        location: document.getElementById('locationInput').value,
+        accessDate: document.getElementById('accessDateInput').value
+    };
+}
+
+// Add event listener to generate button
+document.querySelector('#generate button').addEventListener('click', () => {
+    const formData = collectFormData();
+    const citation = generateMLACitation(formData);
+    document.getElementById('result').value = citation;
+});
+
+// Initialize with book type
+setBook();
+</script>
+    
+</body>
+</html>
+                
