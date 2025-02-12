@@ -95,7 +95,8 @@ input[type="text"],
 input[type="email"],
 input[type="password"],
 input[type="number"],
-textarea {
+textarea,
+div.faketextarea {
     font-family: 'Inter', sans-serif;
     background-color: var(--surface);
     color: var(--text-primary);
@@ -106,6 +107,9 @@ textarea {
     transition: border-color 0.2s ease;
     width: 100%;
     box-sizing: border-box;
+}
+div.faketextarea {
+    height: 60px;
 }
 
 input:focus,
@@ -265,6 +269,32 @@ h3 {
     flex-direction: column;
     justify-content: center;
 }
+.copy-button, .copy-button-no-format {
+    min-width: 20px;
+    padding: 0 2px;
+    height: 25px;
+    background: #222;
+    border: 1px solid var(--border);
+    display: inline-flex;
+    margin-right: 2px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    gap: 8px;
+    transition: background 0.2s;
+}
+.copy-button:hover, .copy-button-no-format:hover {
+    background: #333;
+}
+.active {
+    background: #488600 !important;
+}
+.faketextarea:hover, .copy-button:hover, ..copy-button-no-format:hover {
+    outline: none;
+    border-color: var(--primary);
+}
 </style>
 </head>
 <body>
@@ -340,11 +370,14 @@ h3 {
 <div id="generate">
     <h3>Generate MLA 8 Cit.</h3>
     <button>Generate</button>
-    <textarea name="Citation" id="result"></textarea>
+    <div class="faketextarea" id="result"></div>
+    <div class="copy-button-no-format"><i class="fa-solid fa-clone"></i> Copy without Formatting</div>
+    <div class="copy-button"><i class="fa-solid fa-copy"></i> Copy with Formatting (for Google Docs)</div>
 </div>
 </div>
 <script type="text/javascript">
-    function generateMLACitation({
+    const copyBtn = '';
+function generateMLACitation({
     authors = [],
     title = '',
     container = '',
@@ -356,7 +389,7 @@ h3 {
     location = '',
     accessDate = ''
 }) {
-    let citation = '';
+    let citation = `${copyBtn}`;
 
     // 1. Authors
     if (authors.length > 0) {
@@ -371,7 +404,7 @@ h3 {
 
     // 2. Title
     if (title) {
-        citation += `"${title}"`;
+        citation += `<i>${title}</i>`;
     }
 
     // 3. Container (for articles and websites)
@@ -509,11 +542,25 @@ function collectFormData() {
 document.querySelector('#generate button').addEventListener('click', () => {
     const formData = collectFormData();
     const citation = generateMLACitation(formData);
-    document.getElementById('result').value = citation;
+    document.getElementById('result').innerHTML = citation;
 });
 
 // Initialize with book type
 setBook();
+
+document.querySelector('.copy-button').addEventListener('click', async () => {
+    const type = 'text/html';
+    const blob = new Blob([document.getElementById('result').innerHTML.replace(copyBtn, '')], { type });
+    const data = [new ClipboardItem({ [type]: blob })];
+    await navigator.clipboard.write(data);
+    document.querySelector('.copy-button').classList.add('active');
+    setTimeout(() => { document.querySelector('.copy-button').classList.remove('active') }, 400);
+})
+document.querySelector('.copy-button-no-format').addEventListener('click', async () => {
+    navigator.clipboard.writeText(document.getElementById('result').textContent);
+    document.querySelector('.copy-button-no-format').classList.add('active');
+    setTimeout(() => { document.querySelector('.copy-button-no-format').classList.remove('active') }, 400);
+})
 </script>
     
 </body>
