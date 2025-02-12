@@ -9,6 +9,7 @@
 <style>
     /* Import Inter font */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://site-assets.fontawesome.com/releases/v6.6.0/css/all.css');
 
 /* Base styles */
 :root {
@@ -251,6 +252,19 @@ h3 {
     margin: 0 4px;
     background: var(--border);
 }
+
+.no-border {
+    border: 0 !important;
+    border-left: 0 !important;
+    border-bottom: 0 !important;
+    border-top: 0 !important;
+    border-right: 0 !important;
+}
+.multi-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 </style>
 </head>
 <body>
@@ -259,12 +273,15 @@ h3 {
 <i>Ad-free citation maker for MLA 8</i></div>
 
 <div class="content">
-<div id="opt-section">
-    <h3>Mode</h3>
+<div id="opt-section" class="no-border">
+    <h3>Media Type</h3>
     <div id="opt">
-        <button onclick="setBook()">Book</button>
-        <button onclick="setArticle()">Article</button>
-        <button onclick="setWebsite()">Website</button>
+        <button onclick="setBook()"><i class="fa-solid fa-book"></i> Book</button>
+        <button onclick="setArticle()"><i class="fa-solid fa-newspaper"></i> Article</button>
+        <button onclick="setWebsite()"><i class="fa-solid fa-globe"></i> Website</button>
+    </div>
+    <div id="opt">
+        <button onclick="setSweetgrass()" class="multi-btn"><span>Braiding Sweetgrass for Young Adults</span> <small>Robin Wall Kimmerer</small></button>
     </div>
 </div>
 
@@ -414,6 +431,15 @@ function setBook() {
     document.getElementById('accessDate').style.display = 'none';
     document.getElementById('location').style.display = 'block';
 }
+function setSweetgrass() {
+    setBook();
+    document.querySelectorAll('.input-container').forEach(i=>i.remove());
+    addAuthor("Robin Wall", "Kimmerer");
+    addAuthor("Monique Gray", "Smith");
+    document.querySelector('#titleInput').value = "Braiding Sweetgrass for Young Adults";
+    document.querySelector('#publisherInput').value = "Lerner Publishing Group";
+    document.querySelector('#publicationDateInput').value = "1 Nov 2022";
+}
 
 function setArticle() {
     document.getElementById('containerDiv').style.display = 'block';
@@ -428,12 +454,12 @@ function setWebsite() {
 }
 
 // Function to add author fields
-function addAuthor() {
+function addAuthor(first="", last="") {
     const authorDiv = document.createElement('div');
     authorDiv.className = 'author input-container';
     authorDiv.innerHTML = `
-        <input type="text" class="firstName" placeholder="First name">
-        <input type="text" class="lastName" placeholder="Last name">
+        <input type="text"${first != "" ? " value=\""+first+"\"" : ""} class="firstName" placeholder="First name">
+        <input type="text"${last != "" ? " value=\"" + last + "\"" : ""} class="lastName" placeholder="Last name">
         <button onclick="this.parentElement.remove()">X</button>
     `;
     document.getElementById('authorsList').appendChild(authorDiv);
