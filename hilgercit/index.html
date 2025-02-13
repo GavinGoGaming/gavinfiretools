@@ -291,9 +291,29 @@ h3 {
 .active {
     background: #488600 !important;
 }
-.faketextarea:hover, .copy-button:hover, ..copy-button-no-format:hover {
+.faketextarea:hover, .copy-button:hover, .copy-button-no-format:hover {
     outline: none;
     border-color: var(--primary);
+}
+
+.button-split {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.button-split .left-button {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    height: 100%;
+}
+.button-split .right-button {
+    border-top-left-radius: 0;
+    color: white;height: 100%;
+    border: 1px solid var(--border);
+    border-left: none;
+    background: #783ac4;
+    border-bottom-left-radius: 0;
 }
 </style>
 </head>
@@ -308,7 +328,10 @@ h3 {
     <div id="opt">
         <button onclick="setBook()"><i class="fa-solid fa-book"></i> Book</button>
         <button onclick="setArticle()"><i class="fa-solid fa-newspaper"></i> Article</button>
-        <button onclick="setWebsite()"><i class="fa-solid fa-globe"></i> Website</button>
+        <div class="button-split">
+            <button onclick="setWebsite()" class="left-button"><i class="fa-solid fa-globe"></i> Website</button>
+            <button onclick="setAutomatic()" class="right-button"><i class="fa-solid fa-robot"></i> Auto</button>
+        </div>
     </div>
     <div id="opt">
         <button onclick="setSweetgrass()" class="multi-btn"><span>Braiding Sweetgrass for Young Adults</span> <small>Robin Wall Kimmerer</small></button>
@@ -376,7 +399,8 @@ h3 {
 </div>
 </div>
 <script type="text/javascript">
-    const copyBtn = '';
+    const months = ['Jan', 'Feb', 'March', 'April', 'May', 'June', 'July', 'Aug', 'Sep', 'Nov', 'Dec']
+const copyBtn = '';
 function generateMLACitation({
     authors = [],
     title = '',
@@ -463,6 +487,40 @@ function setBook() {
     document.getElementById('containerDiv').style.display = 'none';
     document.getElementById('accessDate').style.display = 'none';
     document.getElementById('location').style.display = 'block';
+}
+function setAutomatic() {
+    var autoURL = prompt("Website URL (or Cancel)");
+    fetch("https://hilgercit-api.gavingogaming.workers.dev/?url="+autoURL)
+        .then(data => data.json())
+        .then(data => {
+            var meta = data.metadata;
+            setWebsite();
+            document.querySelectorAll('.input-container').forEach(i => i.remove());
+            if(meta.title) {
+                document.querySelector('#titleInput').value = meta.title;
+            }
+            if(meta.author) {
+                addAuthor(meta.author, "");
+            }
+            if(meta.publisher) {
+                document.querySelector('#publisherInput').value = meta.publisher;
+            }
+            if(meta.lastModified) {
+                var lmf = meta.lastModified.split(':')[0];
+                document.querySelector('#publicationDateInput').value = lmf.substr(0,lmf.length - 3).replaceAll(',','');
+            }
+            if(meta.publishDate) {
+                document.querySelector('#publicationDateInput').value = meta.publishDate;
+            }
+            if(meta.url) {
+                document.querySelector('#locationInput').value = meta.url;
+            }
+            if(meta.siteName) {
+                document.querySelector('#containerInput').value = meta.siteName;
+            }
+            var date = new Date(Date.now());
+            document.querySelector('#accessDateInput').value = `${months[date.getMonth()]} ${date.getDate()} ${date.getFullYear()}`;
+        });
 }
 function setSweetgrass() {
     setBook();
